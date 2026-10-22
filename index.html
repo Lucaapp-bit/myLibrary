@@ -155,7 +155,6 @@ dialog[open]{animation:pop .22s ease}
   <div class="det" id="det"></div>
   <nav class="pn" aria-label="Sfoglia i libri">
     <button id="prev" aria-label="Libro precedente"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg>Precedente</button>
-    <button id="copy">Copia link</button>
     <button id="next" aria-label="Libro successivo">Successivo<svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
   </nav>
 </dialog>
@@ -290,11 +289,6 @@ $("#dlg").addEventListener("click", e => { if (e.target === e.currentTarget) e.c
 $("#dlg").addEventListener("close", () => { try { history.replaceState(null, "", location.pathname + location.search); } catch {} });
 $("#prev").onclick = () => show(idx - 1);
 $("#next").onclick = () => show(idx + 1);
-$("#copy").onclick = async () => {
-  const url = location.href;
-  try { await navigator.clipboard.writeText(url); toast("Link copiato"); }
-  catch { toast("Non riesco a copiare il link: copialo dalla barra degli indirizzi."); }
-};
 document.addEventListener("keydown", e => {
   if (!$("#dlg").open) return;
   if (e.key === "ArrowLeft") show(idx - 1);
