@@ -62,7 +62,8 @@ async function download(url) {
   } catch { return null; }
 }
 
-const titleForms = b => [...new Set([shortTitle(b), b.titleEn && b.titleEn.split(/[.:]/)[0].trim()].filter(Boolean))];
+let USE_EN = false; // prima solo il titolo italiano (evita le edizioni inglesi), poi anche quello inglese
+const titleForms = b => [...new Set([shortTitle(b), USE_EN && b.titleEn && b.titleEn.split(/[.:]/)[0].trim()].filter(Boolean))];
 function score(c, b) {
   const na = surname(b), t = norm(c.title);
   if (!t) return 0;
@@ -125,10 +126,14 @@ let done = 0;
 async function tryBook(b) {
   const name = slug(b.title) || "libro";
   let hit = null;
-  for (const c of await candidates(b)) {
-    for (const u of c.urls) { const img = await download(u); if (img) { hit = { ...img, it: c.it }; break; } }
+  for (USE_EN of b.titleEn ? [false, true] : [false]) {
+    for (const c of await candidates(b)) {
+      for (const u of c.urls) { const img = await download(u); if (img) { hit = { ...img, it: c.it }; break; } }
+      if (hit) break;
+    }
     if (hit) break;
   }
+  USE_EN = false;
   if (!hit) return false;
   let file = `${name}.${hit.ext}`, n = 2;
   while (used.has(file)) file = `${name}-${n++}.${hit.ext}`;
