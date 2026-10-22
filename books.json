@@ -18,41 +18,6 @@
     "cover": "covers/il-ritorno.jpg"
   },
   {
-    "title": "Il canto dei cuori ribelli",
-    "author": "Thrity Umrigar",
-    "tags": [
-      "Romanzo",
-      "India",
-      "Condizione femminile"
-    ],
-    "plot": "Smita, giornalista indoamericana, torna in India per raccontare il caso di Meena, una giovane sfigurata dalla famiglia per aver sposato un uomo di un'altra religione. Il viaggio la costringe a fare i conti con la società da cui era fuggita da ragazza e con il proprio passato.",
-    "titleEn": "Honor",
-    "plotEn": "Smita, an Indian-American journalist, goes back to India to cover the case of Meena, a young woman disfigured by her own family for marrying a man of another religion. The assignment forces her to face the society she fled as a teenager, and her own past.",
-    "tagsEn": [
-      "Novel",
-      "India",
-      "Women's lives"
-    ],
-    "cover": "covers/il-canto-dei-cuori-ribelli.jpg"
-  },
-  {
-    "title": "La gang dei sogni",
-    "author": "Luca Di Fulvio",
-    "tags": [
-      "Romanzo",
-      "New York",
-      "Immigrazione"
-    ],
-    "plot": "New York, nei primi decenni del Novecento: un ragazzo figlio di un'immigrata italiana cresce in strada, mette insieme una banda e cerca un riscatto da una vita di povertà e violenza. Un romanzo d'avventura e d'amore sull'America degli immigrati.",
-    "plotEn": "New York in the early twentieth century: the son of an Italian immigrant grows up on the streets, forms a gang and tries to escape poverty and violence. An adventure and love story about immigrant America.",
-    "tagsEn": [
-      "Novel",
-      "New York",
-      "Immigration"
-    ],
-    "cover": "covers/la-gang-dei-sogni.jpg"
-  },
-  {
     "title": "V13",
     "author": "Emmanuel Carrère",
     "tags": [
@@ -614,5 +579,40 @@
       "Stalinism"
     ],
     "cover": "covers/l-amore-ai-tempi-della-neve.jpg"
+  },
+  {
+    "title": "Il canto dei cuori ribelli",
+    "author": "Thrity Umrigar",
+    "tags": [
+      "Romanzo",
+      "India",
+      "Condizione femminile"
+    ],
+    "plot": "Smita, giornalista indoamericana, torna in India per raccontare il caso di Meena, una giovane sfigurata dalla famiglia per aver sposato un uomo di un'altra religione. Il viaggio la costringe a fare i conti con la società da cui era fuggita da ragazza e con il proprio passato.",
+    "titleEn": "Honor",
+    "plotEn": "Smita, an Indian-American journalist, goes back to India to cover the case of Meena, a young woman disfigured by her own family for marrying a man of another religion. The assignment forces her to face the society she fled as a teenager, and her own past.",
+    "tagsEn": [
+      "Novel",
+      "India",
+      "Women's lives"
+    ],
+    "cover": "covers/il-canto-dei-cuori-ribelli.jpg"
+  },
+  {
+    "title": "La gang dei sogni",
+    "author": "Luca Di Fulvio",
+    "tags": [
+      "Romanzo",
+      "New York",
+      "Immigrazione"
+    ],
+    "plot": "New York, nei primi decenni del Novecento: un ragazzo figlio di un'immigrata italiana cresce in strada, mette insieme una banda e cerca un riscatto da una vita di povertà e violenza. Un romanzo d'avventura e d'amore sull'America degli immigrati.",
+    "plotEn": "New York in the early twentieth century: the son of an Italian immigrant grows up on the streets, forms a gang and tries to escape poverty and violence. An adventure and love story about immigrant America.",
+    "tagsEn": [
+      "Novel",
+      "New York",
+      "Immigration"
+    ],
+    "cover": "covers/la-gang-dei-sogni.jpg"
   }
 ]
