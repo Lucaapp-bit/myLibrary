@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>La mia libreria</title>
+<title>La libreria di Luca</title>
 <meta name="description" content="I libri che ho letto, con trama e tag.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="La mia libreria">
+<meta property="og:title" content="La libreria di Luca">
 <meta property="og:description" content="I libri che ho letto, con trama e tag.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -89,8 +89,7 @@ dialog[open]{animation:pop .22s ease}
 <body>
 <div class="wrap">
   <header>
-    <div class="lang" role="group" aria-label="Lingua / Language"><button class="chip" data-l="it">IT</button><button class="chip" data-l="en">EN</button></div>
-    <h1 id="h1">La mia libreria</h1>
+    <h1 id="h1">La libreria di Luca</h1>
     <p id="intro">I libri che ho letto, con trama e tag. Cliccate una copertina per leggere di cosa parla.</p>
   </header>
   <div class="bar">
@@ -151,17 +150,14 @@ const key = b => b.title + "|" + b.author;
 let BOOKS = [], tag = null, query = "", loaded = false, cur = null, chipsOpen = false;
 
 const I18N = {
-  it: { h1: "La mia libreria", intro: "I libri che ho letto, con trama e tag. Cliccate una copertina per leggere di cosa parla.", desc: "I libri che ho letto, con trama e tag.",
+  it: { h1: "La libreria di Luca", intro: "I libri che ho letto, con trama e tag. Cliccate una copertina per leggere di cosa parla.", desc: "I libri che ho letto, con trama e tag.",
         search: "Cerca per titolo, autore o tag", searchAria: "Cerca un libro", all: "Tutti", chipsAria: "Filtra per tag",
         none: "Nessun libro corrisponde. Prova a togliere un filtro.", empty: "Ancora nessun libro.", close: "Chiudi", cover: "Copertina di", open: "Apri la trama", more: "Altri tag", less: "Meno tag" },
   en: { h1: "My library", intro: "The books I've read, with plots and tags. Click a cover to see what it's about.", desc: "The books I've read, with plots and tags.",
         search: "Search by title, author or tag", searchAria: "Search for a book", all: "All", chipsAria: "Filter by tag",
         none: "No books match. Try removing a filter.", empty: "No books yet.", close: "Close", cover: "Cover of", open: "Open plot", more: "More tags", less: "Fewer tags" }
 };
-let lang = (() => {
-  try { const s = localStorage.getItem("lang"); if (s === "it" || s === "en") return s; } catch {}
-  return /^en/i.test(navigator.language || "") ? "en" : "it";
-})();
+let lang = "it";
 const L = k => I18N[lang][k];
 const ttl = b => (lang === "en" && b.titleEn) || b.title;
 const plotOf = b => (lang === "en" && b.plotEn) || b.plot;
@@ -339,27 +335,6 @@ function open(b) {
   const p = document.createElement("p"); p.textContent = plotOf(b);
   box.append(h, by, tg, p);
   if (b.note) { const n = document.createElement("p"); n.className = "note"; n.textContent = b.note; box.appendChild(n); }
-  {
-    const row = document.createElement("div"); row.className = "row"; row.style.marginTop = "6px";
-    const ch = document.createElement("button"); ch.className = "btn"; ch.textContent = "Cambia copertina";
-    ch.onclick = () => openPicker(b, async url => {
-      try {
-        let pw = ""; try { pw = sessionStorage.getItem("pw") || ""; } catch {}
-        if (!pw) pw = prompt("Password admin") || "";
-        if (!pw) return;
-        const r = await fetch("/api/books", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw, action: "covers", covers: [{ title: b.title, author: b.author, cover: url }] }) });
-        const d = await r.json().catch(() => ({}));
-        if (!r.ok) return toast(d.error || "Errore nel salvataggio.");
-        if (!d.count) return toast("Il sito non ha accettato questo indirizzo: controlla che inizi con https:// e provane un altro.");
-        try { sessionStorage.setItem("pw", pw); } catch {}
-        b.cover = url; cache[key(b)] = url; saveCache();
-        render(); open(b); toast("Copertina aggiornata.");
-      } catch { toast("Connessione non riuscita. Riprova."); }
-    });
-    const del = document.createElement("button"); del.className = "btn"; del.textContent = "Elimina libro";
-    del.onclick = () => removeBook(b);
-    row.append(ch, del); box.appendChild(row);
-  }
   det.appendChild(box); if (!$("#dlg").open) $("#dlg").showModal();
 }
 
