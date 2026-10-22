@@ -53,12 +53,7 @@ header p{margin:0;color:var(--mute);max-width:46ch;font-size:clamp(16px,2vw,18px
 .daily-plot{margin:0 0 6px;font-family:var(--serif);font-size:15.5px;line-height:1.6;max-width:62ch;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
 /* Ricerca e filtri */
-.search-wrap{position:relative}
-.search{width:100%;font:inherit;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238a929e' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:16px center}
-.search::placeholder{color:var(--mute)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{flex:none;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;transition:background .15s,border-color .15s}
 .chip:hover{border-color:var(--mute)}
 .chip[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
@@ -150,9 +145,6 @@ dialog[open]{animation:pop .22s ease}
       <button class="link" id="dailyBtn" type="button">Leggi la trama</button>
     </div>
   </section>
-  <div class="search-wrap">
-    <input class="search" id="q" type="search" placeholder="Cerca per titolo, autore o tag" aria-label="Cerca un libro" autocomplete="off">
-  </div>
   <div class="chips" id="chips" role="group" aria-label="Filtra per tag"></div>
   <div class="meta"><span id="count" aria-live="polite"></span><button class="link" id="reset" hidden>Azzera filtri</button></div>
   <main class="grid" id="grid"></main>
@@ -265,7 +257,7 @@ function daily() {
   $("#daily").hidden = false;
 }
 
-function resetFilters() { tag = null; query = ""; $("#q").value = ""; chips(); render(); }
+function resetFilters() { tag = null; query = ""; chips(); render(); }
 
 /* Scheda del libro */
 function show(i) {
@@ -281,7 +273,7 @@ function show(i) {
   b.tags.forEach(t => {
     const s = document.createElement("button"); s.className = "tag"; s.textContent = t;
     s.title = `Mostra i libri con il tag ${t}`;
-    s.onclick = () => { $("#dlg").close(); query = ""; $("#q").value = ""; tag = t; chips(); render(); window.scrollTo({ top: $("#chips").offsetTop - 16 }); };
+    s.onclick = () => { $("#dlg").close(); query = ""; tag = t; chips(); render(); window.scrollTo({ top: $("#chips").offsetTop - 16 }); };
     tg.appendChild(s);
   });
   const p = document.createElement("p"); p.className = "plot"; p.textContent = b.plot;
@@ -309,7 +301,6 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") show(idx + 1);
 });
 
-$("#q").oninput = e => { query = e.target.value; render(); };
 $("#reset").onclick = resetFilters;
 
 const topBtn = $("#top");
