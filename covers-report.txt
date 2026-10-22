@@ -1,12 +1,12 @@
-Copertine salvate: 7
+Copertine salvate: 1
 ==   Il ritorno (già presente)
 ==   Il canto dei cuori ribelli (già presente)
-OK   La gang dei sogni
-OK   V13
+==   La gang dei sogni (già presente)
+==   V13 (già presente)
 ==   Dawla (già presente)
 ==   La casa sul Nilo (già presente)
 ==   Xi Jinping. Come la Cina sogna di tornare impero (già presente)
-OK   Limonov
+==   Limonov (già presente)
 ==   L'avversario (già presente)
 ==   Il messaggero (già presente)
 ==   Certi sconfinamenti (già presente)
@@ -14,9 +14,9 @@ OK   Limonov
 ==   Fiori per Algernon (già presente)
 ==   La casa della moschea (già presente)
 ==   La luce che manca (già presente)
-OK   Le otto montagne
+==   Le otto montagne (già presente)
 ==   Giocati dal caso (già presente)
-OK   Le perfezioni
+==   Le perfezioni (già presente)
 ==   Russia. Storia di un impero eurasiatico (già presente)
 ==   Lo straniero (già presente)
 ==   Il destino dei popoli (già presente)
@@ -26,7 +26,7 @@ OK   La metà di un sole giallo
 ==   Le guerre illegali della NATO (già presente)
 ==   Follia (già presente)
 ==   L'insostenibile leggerezza dell'essere (già presente)
-OK   Sovietistan
+==   Sovietistan (già presente)
 ==   Il divano di Istanbul (già presente)
 ==   Benedette guerre. Crociate e jihad (già presente)
 ==   Le radici dell'odio (già presente)
