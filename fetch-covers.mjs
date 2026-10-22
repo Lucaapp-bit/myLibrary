@@ -57,64 +57,103 @@ async function download(url) {
   } catch { return null; }
 }
 
+const titleForms = b => [...new Set([shortTitle(b), b.titleEn && b.titleEn.split(/[.:]/)[0].trim()].filter(Boolean))];
 function score(c, b) {
-  const nt = norm(b.title), na = surname(b), t = norm(c.title);
+  const na = surname(b), t = norm(c.title);
   if (!t) return 0;
-  const ts = t === nt ? 4 : (t.startsWith(nt) || nt.startsWith(t)) ? 3 : t.includes(nt) ? 2 : 0;
+  let ts = 0;
+  for (const f of titleForms(b)) {
+    const nt = norm(f);
+    ts = Math.max(ts, t === nt ? 4 : (t.startsWith(nt) || nt.startsWith(t)) ? 3 : t.includes(nt) ? 2 : 0);
+  }
   const au = (c.authors || []).some(a => norm(a).includes(na));
   return ts && au ? ts + 2 : 0; // serve sia il titolo sia l'autore
 }
 
 async function candidates(b) {
   const out = [];
-  const g = await getJSON("https://www.googleapis.com/books/v1/volumes?maxResults=20&printType=books&country=IT"
-    + "&fields=items(volumeInfo(title,authors,imageLinks,industryIdentifiers))"
-    + `&q=${enc(`intitle:${shortTitle(b)} inauthor:${surname(b)}`)}${KEY}`);
-  for (const i of (g && g.items) || []) {
-    const v = i.volumeInfo || {};
-    if (!v.imageLinks || !v.imageLinks.thumbnail) continue;
-    const base = v.imageLinks.thumbnail.replace("http:", "https:").replace("&edge=curl", "");
-    out.push({ title: v.title, authors: v.authors, it: itIsbn((v.industryIdentifiers || []).map(x => x.identifier)),
-      urls: [base.replace("zoom=1", "zoom=2"), base] });
+  const forms = titleForms(b);
+  // 1) Apple Books (store italiano): rapido, senza chiave, edizioni italiane
+  for (const t of forms.slice(0, 2)) {
+    const a = await getJSON(`https://itunes.apple.com/search?media=ebook&entity=ebook&country=it&limit=15&term=${enc(t + " " + surname(b))}`);
+    for (const x of (a && a.results) || []) {
+      if (!x.artworkUrl100) continue;
+      out.push({ title: x.trackName, authors: [x.artistName], it: true,
+        urls: [x.artworkUrl100.replace(/\/\d+x\d+bb/, "/600x600bb"), x.artworkUrl100.replace(/\/\d+x\d+bb/, "/300x300bb")] });
+    }
+    await sleep(500);
   }
-  await sleep(400);
-  const o = await getJSON(`https://openlibrary.org/search.json?limit=20&fields=title,author_name,cover_i,isbn&title=${enc(shortTitle(b))}&author=${enc(surname(b))}`);
-  for (const x of (o && o.docs) || []) {
-    if (!x.cover_i) continue;
-    out.push({ title: x.title, authors: x.author_name, it: itIsbn(x.isbn),
-      urls: [`https://covers.openlibrary.org/b/id/${x.cover_i}-L.jpg`] });
+  // 2) Google Books
+  for (const q of [...forms.map(t => `intitle:${t} inauthor:${surname(b)}`), `${shortTitle(b)} ${surname(b)}`]) {
+    const g = await getJSON("https://www.googleapis.com/books/v1/volumes?maxResults=20&printType=books&country=IT"
+      + "&fields=items(volumeInfo(title,authors,imageLinks,industryIdentifiers))"
+      + `&q=${enc(q)}${KEY}`);
+    for (const i of (g && g.items) || []) {
+      const v = i.volumeInfo || {};
+      if (!v.imageLinks || !v.imageLinks.thumbnail) continue;
+      const base = v.imageLinks.thumbnail.replace("http:", "https:").replace("&edge=curl", "");
+      out.push({ title: v.title, authors: v.authors, it: itIsbn((v.industryIdentifiers || []).map(x => x.identifier)),
+        urls: [base.replace("zoom=1", "zoom=2"), base] });
+    }
+    await sleep(900);
+  }
+  // 3) Open Library
+  for (const t of forms) {
+    const o = await getJSON(`https://openlibrary.org/search.json?limit=20&fields=title,author_name,cover_i,isbn&title=${enc(t)}&author=${enc(surname(b))}`);
+    for (const x of (o && o.docs) || []) {
+      if (!x.cover_i) continue;
+      out.push({ title: x.title, authors: x.author_name, it: itIsbn(x.isbn),
+        urls: [`https://covers.openlibrary.org/b/id/${x.cover_i}-L.jpg`] });
+    }
+    await sleep(500);
   }
   return out.map(c => ({ ...c, s: score(c, b) })).filter(c => c.s)
-    .sort((a, z) => (z.it - a.it) || (z.s - a.s)).slice(0, 6);
+    .sort((a, z) => (z.it - a.it) || (z.s - a.s)).slice(0, 8);
 }
 
 const books = JSON.parse(await fs.readFile("books.json", "utf8"));
 await fs.mkdir("covers", { recursive: true });
 await fs.copyFile("books.json", "books.json.bak");
-const used = new Set(), notFound = [], review = [];
+const used = new Set(), review = [], lines = [];
 let done = 0;
 
-for (const b of books) {
+async function tryBook(b) {
   const name = slug(b.title) || "libro";
-  if (b.cover && !FORCE) { console.log(`= ${b.title} (già presente)`); continue; }
   let hit = null;
   for (const c of await candidates(b)) {
     for (const u of c.urls) { const img = await download(u); if (img) { hit = { ...img, it: c.it }; break; } }
     if (hit) break;
   }
-  await sleep(400);
-  if (!hit) { console.log(`✗ ${b.title}`); notFound.push(b.title); continue; }
+  if (!hit) return false;
   let file = `${name}.${hit.ext}`, n = 2;
   while (used.has(file)) file = `${name}-${n++}.${hit.ext}`;
   used.add(file);
   await fs.writeFile(`covers/${file}`, hit.buf);
   b.cover = `covers/${file}`;
   done++;
-  if (hit.it) console.log(`✓ ${b.title}`);
-  else { console.log(`~ ${b.title} (edizione non italiana)`); review.push(b.title); }
+  if (hit.it) lines.push(`OK   ${b.title}`);
+  else { lines.push(`OK?  ${b.title} (edizione non italiana)`); review.push(b.title); }
+  return true;
+}
+
+const pending = [];
+for (const b of books) {
+  if (b.cover && !FORCE) { lines.push(`==   ${b.title} (già presente)`); continue; }
+  console.log(`> ${b.title}`);
+  if (!(await tryBook(b))) pending.push(b);
+  await sleep(1000);
+}
+// secondo passaggio, con più calma, per chi è rimasto senza copertina
+if (pending.length) { console.log(`\nSecondo passaggio: ${pending.length} libri`); await sleep(20000); }
+const notFound = [];
+for (const b of pending) {
+  console.log(`> (2) ${b.title}`);
+  if (!(await tryBook(b))) { notFound.push(b.title); lines.push(`NO   ${b.title}`); }
+  await sleep(3000);
 }
 
 await fs.writeFile("books.json", JSON.stringify(books, null, 2) + "\n");
-console.log(`\nCopertine salvate: ${done}. Copia di sicurezza: books.json.bak`);
-if (review.length) console.log(`\nEdizione non italiana, da controllare:\n  - ${review.join("\n  - ")}`);
-if (notFound.length) console.log(`\nNon trovate (usa "Cambia copertina" sul sito):\n  - ${notFound.join("\n  - ")}`);
+const report = `Copertine salvate: ${done}\n` + lines.join("\n") + "\n";
+await fs.writeFile("covers-report.txt", report);
+console.log("\n" + report);
+if (notFound.length) console.log(`Non trovate (usa "Cambia copertina" sul sito):\n  - ${notFound.join("\n  - ")}`);

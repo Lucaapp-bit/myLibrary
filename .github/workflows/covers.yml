@@ -22,6 +22,6 @@ jobs:
         run: |
           git config user.name "covers-bot"
           git config user.email "covers-bot@users.noreply.github.com"
-          git add covers books.json
+          git add covers books.json covers-report.txt
           git commit -m "Aggiungi copertine" || echo "Niente da salvare"
           git push
