@@ -14,7 +14,8 @@
       "Memoir",
       "Libya",
       "Exile"
-    ]
+    ],
+    "cover": "covers/il-ritorno.jpg"
   },
   {
     "title": "Il canto dei cuori ribelli",
@@ -31,7 +32,8 @@
       "Novel",
       "India",
       "Women's lives"
-    ]
+    ],
+    "cover": "covers/il-canto-dei-cuori-ribelli.jpg"
   },
   {
     "title": "La gang dei sogni",
@@ -101,7 +103,8 @@
       "Egypt",
       "Family",
       "Exile"
-    ]
+    ],
+    "cover": "covers/la-casa-sul-nilo.jpg"
   },
   {
     "title": "Xi Jinping. Come la Cina sogna di tornare impero",
@@ -117,7 +120,8 @@
       "Essay",
       "China",
       "Geopolitics"
-    ]
+    ],
+    "cover": "covers/xi-jinping-come-la-cina-sogna-di-tornare-impero.jpg"
   },
   {
     "title": "Limonov",
@@ -170,7 +174,8 @@
       "Historical novel",
       "Islam",
       "Arabia"
-    ]
+    ],
+    "cover": "covers/il-messaggero.jpg"
   },
   {
     "title": "Certi sconfinamenti",
@@ -187,7 +192,8 @@
       "Novel",
       "Northern Ireland",
       "Conflict"
-    ]
+    ],
+    "cover": "covers/certi-sconfinamenti.jpg"
   },
   {
     "title": "La Repubblica tecnologica",
@@ -204,7 +210,8 @@
       "Essay",
       "Artificial intelligence",
       "Geopolitics"
-    ]
+    ],
+    "cover": "covers/la-repubblica-tecnologica.jpg"
   },
   {
     "title": "Fiori per Algernon",
@@ -221,7 +228,8 @@
       "Novel",
       "Science fiction",
       "Science and ethics"
-    ]
+    ],
+    "cover": "covers/fiori-per-algernon.jpg"
   },
   {
     "title": "La casa della moschea",
@@ -240,7 +248,8 @@
       "Iran",
       "Family",
       "Revolution"
-    ]
+    ],
+    "cover": "covers/la-casa-della-moschea.jpg"
   },
   {
     "title": "La luce che manca",
@@ -259,7 +268,8 @@
       "Georgia",
       "Friendship",
       "Post-USSR"
-    ]
+    ],
+    "cover": "covers/la-luce-che-manca.jpg"
   },
   {
     "title": "Le otto montagne",
@@ -333,7 +343,8 @@
       "Russia",
       "History",
       "Geopolitics"
-    ]
+    ],
+    "cover": "covers/russia-storia-di-un-impero-eurasiatico.jpg"
   },
   {
     "title": "Lo straniero",
@@ -367,7 +378,8 @@
       "Essay",
       "Geopolitics",
       "History"
-    ]
+    ],
+    "cover": "covers/il-destino-dei-popoli.jpg"
   },
   {
     "title": "La buona terra",
@@ -384,7 +396,8 @@
       "Novel",
       "China",
       "Family"
-    ]
+    ],
+    "cover": "covers/la-buona-terra.jpg"
   },
   {
     "title": "La metà di un sole giallo",
@@ -401,7 +414,8 @@
       "Novel",
       "Nigeria",
       "War"
-    ]
+    ],
+    "cover": "covers/la-meta-di-un-sole-giallo.jpg"
   },
   {
     "title": "Shah-in-shah",
@@ -418,7 +432,8 @@
       "Reportage",
       "Iran",
       "Revolution"
-    ]
+    ],
+    "cover": "covers/shah-in-shah.jpg"
   },
   {
     "title": "Le guerre illegali della NATO",
@@ -470,7 +485,8 @@
       "Novel",
       "Czechoslovakia",
       "Philosophy"
-    ]
+    ],
+    "cover": "covers/l-insostenibile-leggerezza-dell-essere.jpg"
   },
   {
     "title": "Sovietistan",
@@ -525,7 +541,8 @@
       "Crusades",
       "History",
       "Islam"
-    ]
+    ],
+    "cover": "covers/benedette-guerre-crociate-e-jihad.jpg"
   },
   {
     "title": "Le radici dell'odio",
@@ -541,7 +558,8 @@
       "Essay",
       "Islam",
       "Journalism"
-    ]
+    ],
+    "cover": "covers/le-radici-dell-odio.jpg"
   },
   {
     "title": "Lettere contro la guerra",
