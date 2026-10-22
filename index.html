@@ -42,6 +42,16 @@ header{padding:clamp(36px,7vw,72px) 0 28px}
 h1{font-family:var(--serif);font-weight:700;font-size:clamp(46px,9.5vw,104px);line-height:.96;letter-spacing:-.035em;margin:0 0 18px;max-width:9em}
 header p{margin:0;color:var(--mute);max-width:46ch;font-size:clamp(16px,2vw,18px)}
 
+/* Consiglio del giorno */
+.daily{display:grid;grid-template-columns:116px 1fr;gap:24px;align-items:center;margin:0 0 30px;padding:20px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--card) 72%,transparent)}
+.daily h2{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--acc)}
+.daily-cov{all:unset;cursor:pointer;display:block}
+.daily-cov:focus-visible .cov{outline:2px solid var(--acc);outline-offset:4px}
+.daily-cov:hover .cov{transform:translateY(-4px)}
+.daily-title{font-family:var(--serif);font-weight:700;font-size:clamp(21px,3.2vw,30px);line-height:1.12;letter-spacing:-.022em;margin:0}
+.daily-by{margin:4px 0 10px;color:var(--mute);font-size:15px}
+.daily-plot{margin:0 0 6px;font-family:var(--serif);font-size:15.5px;line-height:1.6;max-width:62ch;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
 /* Ricerca e filtri */
 .search-wrap{position:relative}
 .search{width:100%;font:inherit;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);
@@ -108,6 +118,8 @@ dialog[open]{animation:pop .22s ease}
 
 @media (max-width:700px){
   :root{--gx:16px}
+  .daily{grid-template-columns:86px 1fr;gap:16px;padding:14px}
+  .daily-plot{-webkit-line-clamp:2;font-size:15px}
   .grid{grid-template-columns:repeat(2,1fr);gap:36px var(--gx);padding-top:30px}
   .chips:not(.open){flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px;scroll-snap-type:x proximity}
   .chips:not(.open)::-webkit-scrollbar{display:none}
@@ -128,6 +140,16 @@ dialog[open]{animation:pop .22s ease}
     <h1 id="h1">La libreria di Luca</h1>
     <p>I migliori libri che ho letto, con trama e tag. Cliccate una copertina per leggere di cosa parla.</p>
   </header>
+  <section class="daily" id="daily" aria-labelledby="dailyT" hidden>
+    <button class="daily-cov" id="dailyCov" type="button"></button>
+    <div>
+      <h2 id="dailyT">Consiglio del giorno</h2>
+      <p class="daily-title" id="dailyTitle"></p>
+      <p class="daily-by" id="dailyBy"></p>
+      <p class="daily-plot" id="dailyPlot"></p>
+      <button class="link" id="dailyBtn" type="button">Leggi la trama</button>
+    </div>
+  </section>
   <div class="search-wrap">
     <input class="search" id="q" type="search" placeholder="Cerca per titolo, autore o tag" aria-label="Cerca un libro" autocomplete="off">
   </div>
@@ -223,6 +245,26 @@ function chips() {
   }
 }
 
+/* Consiglio del giorno: lo stesso libro per tutti, cambia a mezzanotte (ora italiana), ordine fisso e mescolato */
+const hash = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
+function dailyBook() {
+  const [y, m, d] = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit", day: "2-digit" })
+    .format(new Date()).split("-").map(Number);
+  const order = [...BOOKS].sort((a, b) => hash(a.title) - hash(b.title));
+  return order[Math.floor(Date.UTC(y, m - 1, d) / 864e5) % order.length];
+}
+function daily() {
+  if (!BOOKS.length) return;
+  const b = dailyBook();
+  const open = () => { if (tag || query.trim()) resetFilters(); show(view.indexOf(b)); };
+  const slot = document.createElement("div"); slot.className = "slot"; slot.appendChild(coverEl(b));
+  $("#dailyCov").replaceChildren(slot);
+  $("#dailyCov").setAttribute("aria-label", `${b.title}, ${b.author}. Apri la trama`);
+  $("#dailyTitle").textContent = b.title; $("#dailyBy").textContent = b.author; $("#dailyPlot").textContent = b.plot;
+  $("#dailyCov").onclick = open; $("#dailyBtn").onclick = open;
+  $("#daily").hidden = false;
+}
+
 function resetFilters() { tag = null; query = ""; $("#q").value = ""; chips(); render(); }
 
 /* Scheda del libro */
@@ -283,7 +325,7 @@ topBtn.onclick = () => scrollTo({ top: 0 });
     $("#grid").innerHTML = `<div class="empty"><p>Non riesco a caricare i libri. Ricarica la pagina.</p></div>`;
     return;
   }
-  chips(); render();
+  chips(); render(); daily();
   const m = location.hash.match(/^#libro=(.+)$/);
   if (m) { const i = view.findIndex(b => slug(b) === decodeURIComponent(m[1])); if (i >= 0) show(i); }
 })();
