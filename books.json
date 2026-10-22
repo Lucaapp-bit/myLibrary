@@ -596,5 +596,22 @@
       "Travel"
     ],
     "cover": "covers/un-indovino-mi-disse.jpg"
+  },
+  {
+    "title": "L'amore ai tempi della neve",
+    "author": "Simon Sebag Montefiore",
+    "tags": [
+      "Romanzo storico",
+      "Russia",
+      "Stalinismo"
+    ],
+    "plot": "Mosca, 1945: mentre Stalin si prepara a celebrare la vittoria sui nazisti, due ragazzi di famiglie potenti vengono trovati morti su un ponte. Omicidio, doppio suicidio o complotto di Stato? Stalin segue le indagini di persona e costringe i compagni di classe a testimoniare contro amici e parenti, in una caccia alle streghe che porta alla luce amori segreti e segreti di famiglia.",
+    "titleEn": "One Night in Winter",
+    "plotEn": "Moscow, 1945: as Stalin prepares to celebrate victory over the Nazis, two young people from powerful families are found dead on a bridge. Murder, double suicide or state conspiracy? Stalin oversees the investigation himself and forces their classmates to testify against friends and relatives, in a witch hunt that exposes secret love affairs and family secrets.",
+    "tagsEn": [
+      "Historical novel",
+      "Russia",
+      "Stalinism"
+    ]
   }
 ]
