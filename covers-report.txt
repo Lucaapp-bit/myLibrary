@@ -1,34 +1,35 @@
-Copertine salvate: 18
-OK   Il ritorno
-OK   Il canto dei cuori ribelli
+Copertine salvate: 1
+==   Il ritorno (già presente)
+==   Il canto dei cuori ribelli (già presente)
 ==   La gang dei sogni (già presente)
 ==   V13 (già presente)
 ==   Dawla (già presente)
-OK   La casa sul Nilo
-OK   Xi Jinping. Come la Cina sogna di tornare impero
+==   La casa sul Nilo (già presente)
+==   Xi Jinping. Come la Cina sogna di tornare impero (già presente)
 ==   Limonov (già presente)
 ==   L'avversario (già presente)
-OK   Il messaggero
-OK   Certi sconfinamenti
-OK   La Repubblica tecnologica
-OK   Fiori per Algernon
-OK   La casa della moschea
-OK   La luce che manca
+==   Il messaggero (già presente)
+==   Certi sconfinamenti (già presente)
+==   La Repubblica tecnologica (già presente)
+==   Fiori per Algernon (già presente)
+==   La casa della moschea (già presente)
+==   La luce che manca (già presente)
 ==   Le otto montagne (già presente)
 ==   Giocati dal caso (già presente)
 ==   Le perfezioni (già presente)
-OK   Russia. Storia di un impero eurasiatico
+==   Russia. Storia di un impero eurasiatico (già presente)
 ==   Lo straniero (già presente)
-OK   Il destino dei popoli
-OK   La buona terra
-OK   La metà di un sole giallo
-OK   Shah-in-shah
+==   Il destino dei popoli (già presente)
+==   La buona terra (già presente)
+==   La metà di un sole giallo (già presente)
+==   Shah-in-shah (già presente)
 ==   Le guerre illegali della NATO (già presente)
 ==   Follia (già presente)
-OK   L'insostenibile leggerezza dell'essere
+==   L'insostenibile leggerezza dell'essere (già presente)
 ==   Sovietistan (già presente)
 ==   Il divano di Istanbul (già presente)
-OK   Benedette guerre. Crociate e jihad
-OK   Le radici dell'odio
+==   Benedette guerre. Crociate e jihad (già presente)
+==   Le radici dell'odio (già presente)
 ==   Lettere contro la guerra (già presente)
 ==   Un indovino mi disse (già presente)
+OK   L'amore ai tempi della neve
