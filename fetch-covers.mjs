@@ -16,14 +16,19 @@ const slug = s => norm(s).replace(/ /g, "-").slice(0, 60);
 // ISBN registrati in Italia: 978-88 (o il vecchio 88-...)
 const itIsbn = list => (list || []).some(x => /^(97888|88)/.test(String(x).replace(/[^0-9Xx]/g, "")));
 
+const strikes = {};
 async function getJSON(url) {
-  for (let i = 0; i < 5; i++) {
+  const host = new URL(url).host;
+  if ((strikes[host] || 0) >= 3) return null; // fonte che non risponde: la saltiamo
+  for (let i = 0; i < 2; i++) {
     try {
       const r = await fetch(url);
-      if (r.status === 429 || r.status >= 500) { await sleep(2000 * (i + 1)); continue; }
+      if (r.status === 429 || r.status >= 500) { await sleep(1500); continue; }
+      strikes[host] = 0;
       return r.ok ? await r.json() : null;
-    } catch { await sleep(1000); }
+    } catch { await sleep(500); }
   }
+  strikes[host] = (strikes[host] || 0) + 1;
   return null;
 }
 
@@ -144,12 +149,12 @@ for (const b of books) {
   await sleep(1000);
 }
 // secondo passaggio, con più calma, per chi è rimasto senza copertina
-if (pending.length) { console.log(`\nSecondo passaggio: ${pending.length} libri`); await sleep(20000); }
+if (pending.length) { console.log(`\nSecondo passaggio: ${pending.length} libri`); await sleep(5000); }
 const notFound = [];
 for (const b of pending) {
   console.log(`> (2) ${b.title}`);
   if (!(await tryBook(b))) { notFound.push(b.title); lines.push(`NO   ${b.title}`); }
-  await sleep(3000);
+  await sleep(1000);
 }
 
 await fs.writeFile("books.json", JSON.stringify(books, null, 2) + "\n");
