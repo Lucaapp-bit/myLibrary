@@ -47,7 +47,8 @@
       "Novel",
       "New York",
       "Immigration"
-    ]
+    ],
+    "cover": "covers/la-gang-dei-sogni.jpg"
   },
   {
     "title": "V13",
@@ -64,7 +65,8 @@
       "Narrative non-fiction",
       "France",
       "Terrorism"
-    ]
+    ],
+    "cover": "covers/v13.jpg"
   },
   {
     "title": "Dawla",
@@ -80,7 +82,8 @@
       "Narrative non-fiction",
       "Middle East",
       "Terrorism"
-    ]
+    ],
+    "cover": "covers/dawla.jpg"
   },
   {
     "title": "La casa sul Nilo",
@@ -131,7 +134,8 @@
       "Narrative non-fiction",
       "Russia",
       "Biography"
-    ]
+    ],
+    "cover": "covers/limonov.jpg"
   },
   {
     "title": "L'avversario",
@@ -148,7 +152,8 @@
       "Narrative non-fiction",
       "France",
       "True crime"
-    ]
+    ],
+    "cover": "covers/l-avversario.jpg"
   },
   {
     "title": "Il messaggero",
@@ -273,7 +278,8 @@
       "Mountains",
       "Friendship",
       "Italy"
-    ]
+    ],
+    "cover": "covers/le-otto-montagne.jpg"
   },
   {
     "title": "Giocati dal caso",
@@ -290,7 +296,8 @@
       "Essay",
       "Finance",
       "Probability"
-    ]
+    ],
+    "cover": "covers/giocati-dal-caso.jpg"
   },
   {
     "title": "Le perfezioni",
@@ -307,7 +314,8 @@
       "Novel",
       "Berlin",
       "Millennial generation"
-    ]
+    ],
+    "cover": "covers/le-perfezioni.jpg"
   },
   {
     "title": "Russia. Storia di un impero eurasiatico",
@@ -342,7 +350,8 @@
       "Novel",
       "Algeria",
       "Philosophy"
-    ]
+    ],
+    "cover": "covers/lo-straniero.jpg"
   },
   {
     "title": "Il destino dei popoli",
@@ -425,7 +434,8 @@
       "Essay",
       "Geopolitics",
       "International law"
-    ]
+    ],
+    "cover": "covers/le-guerre-illegali-della-nato.jpg"
   },
   {
     "title": "Follia",
@@ -442,7 +452,8 @@
       "Novel",
       "England",
       "Obsession"
-    ]
+    ],
+    "cover": "covers/follia.jpg"
   },
   {
     "title": "L'insostenibile leggerezza dell'essere",
@@ -476,7 +487,8 @@
       "Reportage",
       "Central Asia",
       "Travel"
-    ]
+    ],
+    "cover": "covers/sovietistan.jpg"
   },
   {
     "title": "Il divano di Istanbul",
@@ -494,7 +506,8 @@
       "Ottoman Empire",
       "History",
       "Turkey"
-    ]
+    ],
+    "cover": "covers/il-divano-di-istanbul.jpg"
   },
   {
     "title": "Benedette guerre. Crociate e jihad",
@@ -545,7 +558,8 @@
       "Essay",
       "Peace",
       "Asia"
-    ]
+    ],
+    "cover": "covers/lettere-contro-la-guerra.jpg"
   },
   {
     "title": "Un indovino mi disse",
@@ -562,6 +576,7 @@
       "Reportage",
       "Asia",
       "Travel"
-    ]
+    ],
+    "cover": "covers/un-indovino-mi-disse.jpg"
   }
 ]
