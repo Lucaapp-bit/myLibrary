@@ -12,19 +12,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f2f3f5;--ink:#14181f;--mute:#5d6572;--line:#d9dce2;--card:#fff;--acc:#2f45d8;--acc-ink:#fff;
---font:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#101215;--ink:#eceef2;--mute:#9aa2af;--line:#272b33;--card:#181b20;--acc:#8ea0ff;--acc-ink:#101215}}
-:root[data-theme=dark]{--bg:#101215;--ink:#eceef2;--mute:#9aa2af;--line:#272b33;--card:#181b20;--acc:#8ea0ff;--acc-ink:#101215}
+--font:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;
+--bgimg:radial-gradient(900px 520px at 8% -8%,rgba(47,69,216,.07),transparent 65%),radial-gradient(800px 480px at 100% 4%,rgba(255,176,120,.12),transparent 65%),radial-gradient(rgba(20,24,31,.055) 1px,transparent 1.2px) 0 0/22px 22px,linear-gradient(180deg,#f6f4f0,#eceef2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bgimg:radial-gradient(900px 520px at 8% -8%,rgba(142,160,255,.10),transparent 65%),radial-gradient(800px 480px at 100% 4%,rgba(255,176,120,.06),transparent 65%),radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/22px 22px,linear-gradient(180deg,#14171d,#0e1013);--bg:#101215;--ink:#eceef2;--mute:#9aa2af;--line:#272b33;--card:#181b20;--acc:#8ea0ff;--acc-ink:#101215}}
+:root[data-theme=dark]{--bgimg:radial-gradient(900px 520px at 8% -8%,rgba(142,160,255,.10),transparent 65%),radial-gradient(800px 480px at 100% 4%,rgba(255,176,120,.06),transparent 65%),radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/22px 22px,linear-gradient(180deg,#14171d,#0e1013);--bg:#101215;--ink:#eceef2;--mute:#9aa2af;--line:#272b33;--card:#181b20;--acc:#8ea0ff;--acc-ink:#101215}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;
+body{margin:0;min-height:100vh;background:var(--bgimg);color:var(--ink);font-family:var(--font);line-height:1.5;
 padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 header{padding:56px 0 24px;position:relative}
 .lang{position:absolute;top:18px;right:0;display:flex;gap:6px}
 h1{font-size:clamp(40px,8vw,84px);line-height:.95;letter-spacing:-.04em;font-weight:800;margin:0 0 14px}
 header p{margin:0;color:var(--mute);max-width:52ch;font-size:18px}
-.bar{background:var(--bg);padding:12px 0;border-bottom:1px solid var(--line)}
+.bar{background:transparent;padding:12px 0;border-bottom:1px solid var(--line)}
 .search{width:100%;font:inherit;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .chip.more{border-style:dashed}
@@ -91,7 +92,6 @@ dialog[open]{animation:pop .22s ease}
     <div class="lang" role="group" aria-label="Lingua / Language"><button class="chip" data-l="it">IT</button><button class="chip" data-l="en">EN</button></div>
     <h1 id="h1">La mia libreria</h1>
     <p id="intro">I libri che ho letto, con trama e tag. Cliccate una copertina per leggere di cosa parla.</p>
-    <p class="row"><button class="btn pri" id="addBtn">Aggiungi libro</button><button class="btn" id="importBtn">Importa da books.json</button><button class="btn" id="coversBtn">Salva copertine</button></p>
   </header>
   <div class="bar">
     <input class="search" id="q" type="search" placeholder="Cerca per titolo, autore o tag" aria-label="Cerca un libro">
@@ -371,11 +371,6 @@ $("#dlg").addEventListener("click", e => { if (e.target === e.currentTarget) e.c
 const addDlg = $("#addDlg"), frm = $("#frm"), msg = $("#msg");
 const say = t => { msg.textContent = t; };
 let tt; const toast = t => { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(tt); tt = setTimeout(() => el.hidden = true, 6000); };
-$("#addBtn").onclick = () => {
-  frm.reset(); say(""); $("#pickPreview").textContent = "";
-  try { frm.elements.pw.value = sessionStorage.getItem("pw") || ""; } catch {}
-  addDlg.showModal();
-};
 $("#x2").onclick = () => addDlg.close();
 addDlg.addEventListener("click", e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 
@@ -442,37 +437,6 @@ document.querySelectorAll(".lang .chip").forEach(b => b.onclick = () => {
   lang = b.dataset.l; try { localStorage.setItem("lang", lang); } catch {}
   applyLang();
 });
-
-$("#coversBtn").onclick = async () => {
-  const covers = BOOKS.filter(b => !b.cover && cache[key(b)]).map(b => ({ title: b.title, author: b.author, cover: cache[key(b)] }));
-  if (!covers.length) return toast("Nessuna copertina nuova da salvare: aspetta che si carichino e riprova.");
-  let pw = ""; try { pw = sessionStorage.getItem("pw") || ""; } catch {}
-  if (!pw) pw = prompt("Password admin") || "";
-  if (!pw) return;
-  try {
-    const r = await fetch("/api/books", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw, action: "covers", covers }) });
-    const d = await r.json().catch(() => ({}));
-    if (!r.ok) return toast(d.error || "Errore nel salvataggio.");
-    try { sessionStorage.setItem("pw", pw); } catch {}
-    covers.forEach(c => { const b = BOOKS.find(x => x.title === c.title && x.author === c.author); if (b) b.cover = c.cover; });
-    toast(`Salvate ${d.count} copertine.`);
-  } catch { toast("Connessione non riuscita. Riprova."); }
-};
-
-$("#importBtn").onclick = async () => {
-  if (!confirm("Sostituire tutta la libreria con i libri del file books.json?")) return;
-  let pw = ""; try { pw = sessionStorage.getItem("pw") || ""; } catch {}
-  if (!pw) pw = prompt("Password admin") || "";
-  if (!pw) return;
-  try {
-    const r = await fetch("/api/books", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw, action: "import" }) });
-    const d = await r.json().catch(() => ({}));
-    if (!r.ok) return toast(d.error || "Errore nell'importazione.");
-    try { sessionStorage.setItem("pw", pw); } catch {}
-    BOOKS = await (await fetch("/api/books", { cache: "no-store" })).json();
-    tag = null; chips(); render(); toast(`Importati ${d.count} libri.`);
-  } catch { toast("Connessione non riuscita. Riprova."); }
-};
 
 function openPicker(b, onPick) {
   const grid = $("#pgrid"), hint = $("#cpHint"), urlBox = $("#cpUrl");
