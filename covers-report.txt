@@ -1,7 +1,5 @@
 Copertine salvate: 1
 ==   Il ritorno (già presente)
-==   Il canto dei cuori ribelli (già presente)
-==   La gang dei sogni (già presente)
 ==   V13 (già presente)
 ==   Dawla (già presente)
 ==   La casa sul Nilo (già presente)
@@ -21,7 +19,7 @@ Copertine salvate: 1
 ==   Lo straniero (già presente)
 ==   Il destino dei popoli (già presente)
 ==   La buona terra (già presente)
-OK   La metà di un sole giallo
+==   La metà di un sole giallo (già presente)
 ==   Shah-in-shah (già presente)
 ==   Le guerre illegali della NATO (già presente)
 ==   Follia (già presente)
@@ -33,3 +31,6 @@ OK   La metà di un sole giallo
 ==   Lettere contro la guerra (già presente)
 ==   Un indovino mi disse (già presente)
 ==   L'amore ai tempi della neve (già presente)
+OK   Sasenka
+==   Il canto dei cuori ribelli (già presente)
+==   La gang dei sogni (già presente)
