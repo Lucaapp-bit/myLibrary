@@ -311,6 +311,11 @@ topBtn.onclick = () => scrollTo({ top: 0 });
     return;
   }
   chips(); render(); daily();
+  // Le note di Luca (scritte dalla pagina admin) arrivano in secondo piano e compaiono nella scheda del libro
+  fetch("/api/notes", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(d => {
+    if (!d || !d.notes) return;
+    for (const b of BOOKS) { const n = d.notes[`${b.title}|${b.author}`.toLowerCase()]; if (n) b.note = n; }
+  }).catch(() => {});
   const m = location.hash.match(/^#libro=(.+)$/);
   if (m) { const i = view.findIndex(b => slug(b) === decodeURIComponent(m[1])); if (i >= 0) show(i); }
 })();
