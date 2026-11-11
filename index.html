@@ -97,7 +97,9 @@ dialog[open]{animation:pop .22s ease}
 .tag{font-size:13px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer}
 .tag:hover{border-color:var(--acc);color:var(--acc)}
 .plot{font-family:var(--serif);font-size:17px;line-height:1.7;margin:0 0 16px;max-width:60ch}
-.note{border-left:3px solid var(--acc);padding-left:14px;color:var(--mute);font-family:var(--serif);line-height:1.65;max-width:60ch}
+.note{border-left:3px solid var(--acc);padding-left:14px;max-width:60ch}
+.note h3{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--acc)}
+.note p{margin:0;color:var(--mute);font-family:var(--serif);font-size:16px;line-height:1.65;white-space:pre-line}
 .pn{display:flex;justify-content:space-between;gap:8px;padding:16px 36px 24px;border-top:1px solid var(--line);margin:0 36px;padding-inline:0}
 .pn button{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:transparent;cursor:pointer;font-size:14px;font-weight:500}
 .pn button:hover{border-color:var(--mute)}
@@ -277,7 +279,12 @@ function show(i) {
   });
   const p = document.createElement("p"); p.className = "plot"; p.textContent = b.plot;
   box.append(h, by, tg, p);
-  if (b.note) { const n = document.createElement("p"); n.className = "note"; n.textContent = b.note; box.appendChild(n); }
+  if (b.note) {
+    const n = document.createElement("div"); n.className = "note";
+    const nt = document.createElement("h3"); nt.textContent = "Nota di Luca";
+    const np = document.createElement("p"); np.textContent = b.note;
+    n.append(nt, np); box.appendChild(n);
+  }
   det.append(cov, box);
   if (!$("#dlg").open) $("#dlg").showModal();
   $("#dlg").scrollTop = 0;
